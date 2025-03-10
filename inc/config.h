@@ -29,23 +29,13 @@
 #define config_h
 #include "grbl.h" // For Arduino IDE compatibility.
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 // Define CPU pin map and default settings.
 // NOTE: OEMs can avoid the need to maintain/update the defaults.h and cpu_map.h files and use only
 // one configuration file by placing their specific defaults and pin map at the bottom of this file.
 // If doing so, simply comment out these two defines and see instructions below.
-<<<<<<< Updated upstream
-//#define DEFAULTS_GENERIC
-// #define ABC_AXIS_EXAMPLE
-#define DEFAULTS_3040T
-=======
 // #define DEFAULTS_GENERIC
 #define ABC_AXIS_EXAMPLE
 // #define DEFAULTS_3040T
->>>>>>> Stashed changes
 
 #ifdef WIN32
 #define CPU_MAP_WIN32
@@ -58,14 +48,8 @@
 #endif
 
 // USART Serial baud rate
-<<<<<<< Updated upstream
-// #define BAUD_RATE 115200
-#define BAUD_RATE 921600
-
-=======
 #define BAUD_RATE 115200
 // #define BAUD_RATE 921600
->>>>>>> Stashed changes
 
 // --- YSV 22-06-2018
 //************************************************************************************************************
@@ -74,19 +58,11 @@
 // Additional axis
 // #define AA_AXIS // Disabled by default. Uncomment to enable.
 // Don't use high step rate with B and C axis. Less than 80kHz recommended
-<<<<<<< Updated upstream
-//#define AB_AXIS  // Disabled by default. Uncomment to enable.
-// CAUTION! C axis use SWD (PA13, PA14). After first flashing you can flash controller only with
-// "under reset" option and with reset pin connected to the programmer!
-// Don't use it if not sure!
-//#define ABC_AXIS
-=======
 #define AB_AXIS // Disabled by default. Uncomment to enable.
 // CAUTION! C axis use SWD (PA13, PA14). After first flashing you can flash controller only with
 // "under reset" option and with reset pin connected to the programmer!
 // Don't use it if not sure!
 // #define ABC_AXIS
->>>>>>> Stashed changes
 
 // In some cases after the Enable signal, it takes some time to wake up the stepper motor drivers.
 // Otherwise, some of the primary step signals may be skipped by drivers hardware
@@ -109,21 +85,11 @@
 // For higher security guarantees, use the reset button of the development board in
 // combination with your own e-stop button circuit design.
 // CAUTION!!! Use only a normal closed button for this purpose.
-<<<<<<< Updated upstream
-//#define USE_RESET_BTN_AS_ESTOP // Disabled by default. Uncomment to enable.
-=======
 // #define USE_RESET_BTN_AS_ESTOP // Disabled by default. Uncomment to enable.
->>>>>>> Stashed changes
 //************************************************************************************************************
 //************************************************************************************************************
 // ---
 
-<<<<<<< Updated upstream
-
-
-
-=======
->>>>>>> Stashed changes
 // Define realtime command special characters. These characters are 'picked-off' directly from the
 // serial read data stream and are not passed to the grbl line execution parser. Select characters
 // that do not and must not exist in the streamed g-code program. ASCII control characters may be
@@ -145,20 +111,6 @@
 // #define CMD_CYCLE_START 0x82
 // #define CMD_FEED_HOLD 0x83
 #define CMD_SAFETY_DOOR 0x84
-<<<<<<< Updated upstream
-#define CMD_JOG_CANCEL  0x85
-#define CMD_DEBUG_REPORT 0x86 // Only when DEBUG enabled, sends debug report in '{}' braces.
-#define CMD_FEED_OVR_RESET 0x90         // Restores feed override value to 100%.
-#define CMD_FEED_OVR_COARSE_PLUS 0x91
-#define CMD_FEED_OVR_COARSE_MINUS 0x92
-#define CMD_FEED_OVR_FINE_PLUS  0x93
-#define CMD_FEED_OVR_FINE_MINUS  0x94
-#define CMD_RAPID_OVR_RESET 0x95        // Restores rapid override value to 100%.
-#define CMD_RAPID_OVR_MEDIUM 0x96
-#define CMD_RAPID_OVR_LOW 0x97
-// #define CMD_RAPID_OVR_EXTRA_LOW 0x98 // *NOT SUPPORTED*
-#define CMD_SPINDLE_OVR_RESET 0x99      // Restores spindle override value to 100%.
-=======
 #define CMD_JOG_CANCEL 0x85
 #define CMD_DEBUG_REPORT 0x86   // Only when DEBUG enabled, sends debug report in '{}' braces.
 #define CMD_FEED_OVR_RESET 0x90 // Restores feed override value to 100%.
@@ -171,7 +123,6 @@
 #define CMD_RAPID_OVR_LOW 0x97
 // #define CMD_RAPID_OVR_EXTRA_LOW 0x98 // *NOT SUPPORTED*
 #define CMD_SPINDLE_OVR_RESET 0x99 // Restores spindle override value to 100%.
->>>>>>> Stashed changes
 #define CMD_SPINDLE_OVR_COARSE_PLUS 0x9A
 #define CMD_SPINDLE_OVR_COARSE_MINUS 0x9B
 #define CMD_SPINDLE_OVR_FINE_PLUS 0x9C
@@ -202,22 +153,6 @@
 // NOTE: Defaults are set for a traditional 3-axis CNC machine. Z-axis first to clear, followed by X & Y.
 // --- YSV 22-06-2018
 #if defined AA_AXIS
-<<<<<<< Updated upstream
-#define HOMING_CYCLE_0 (1<<Z_AXIS)                // REQUIRED: First move Z to clear workspace.
-#define HOMING_CYCLE_1 ((1<<X_AXIS)|(1<<Y_AXIS))  // OPTIONAL: Then move X,Y at the same time.
-#define HOMING_CYCLE_2 (1<<A_AXIS)                // OPTIONAL: Then move A
-#elif defined AB_AXIS
-#define HOMING_CYCLE_0 (1<<Z_AXIS)                // REQUIRED: First move Z to clear workspace.
-#define HOMING_CYCLE_1 ((1<<X_AXIS)|(1<<Y_AXIS))  // OPTIONAL: Then move X,Y at the same time.
-#define HOMING_CYCLE_2 ((1<<A_AXIS)|(1<<B_AXIS))  // OPTIONAL: Then move A,B at the same time.
-#elif defined ABC_AXIS
-#define HOMING_CYCLE_0 (1<<Z_AXIS)                // REQUIRED: First move Z to clear workspace.
-#define HOMING_CYCLE_1 ((1<<X_AXIS)|(1<<Y_AXIS))  // OPTIONAL: Then move X,Y at the same time.
-#define HOMING_CYCLE_2 ((1<<A_AXIS)|(1<<B_AXIS)|(1<<C_AXIS)) // OPTIONAL: Then move A,B,C at the same time.
-#else
-#define HOMING_CYCLE_0 (1<<Z_AXIS)                // REQUIRED: First move Z to clear workspace.
-#define HOMING_CYCLE_1 ((1<<X_AXIS)|(1<<Y_AXIS))  // OPTIONAL: Then move X,Y at the same time.
-=======
 #define HOMING_CYCLE_0 (1 << Z_AXIS)                   // REQUIRED: First move Z to clear workspace.
 #define HOMING_CYCLE_1 ((1 << X_AXIS) | (1 << Y_AXIS)) // OPTIONAL: Then move X,Y at the same time.
 #define HOMING_CYCLE_2 (1 << A_AXIS)                   // OPTIONAL: Then move A
@@ -232,17 +167,12 @@
 #else
 #define HOMING_CYCLE_0 (1 << Z_AXIS)                   // REQUIRED: First move Z to clear workspace.
 #define HOMING_CYCLE_1 ((1 << X_AXIS) | (1 << Y_AXIS)) // OPTIONAL: Then move X,Y at the same time.
->>>>>>> Stashed changes
 // #define HOMING_CYCLE_2                         // OPTIONAL: Uncomment and add axes mask to enable
 #endif
 // ---
 
 // NOTE: The following are two examples to setup homing for 2-axis machines.
-<<<<<<< Updated upstream
-// #define HOMING_CYCLE_0 ((1<<X_AXIS)|(1<<Y_AXIS))  // NOT COMPATIBLE WITH COREXY: Homes both X-Y in one cycle. 
-=======
 // #define HOMING_CYCLE_0 ((1<<X_AXIS)|(1<<Y_AXIS))  // NOT COMPATIBLE WITH COREXY: Homes both X-Y in one cycle.
->>>>>>> Stashed changes
 
 // #define HOMING_CYCLE_0 (1<<X_AXIS)  // COREXY COMPATIBLE: First home X
 // #define HOMING_CYCLE_1 (1<<Y_AXIS)  // COREXY COMPATIBLE: Then home Y
@@ -252,11 +182,7 @@
 // greater.
 #define N_HOMING_LOCATE_CYCLE 1 // Integer (1-128)
 
-<<<<<<< Updated upstream
-// Enables single axis homing commands. $HX, $HY, and $HZ for X, Y, and Z-axis homing. The full homing 
-=======
 // Enables single axis homing commands. $HX, $HY, and $HZ for X, Y, and Z-axis homing. The full homing
->>>>>>> Stashed changes
 // cycle is still invoked by the $H command. This is disabled by default. It's here only to address
 // users that need to switch between a two-axis and three-axis machine. This is actually very rare.
 // If you have a two-axis machine, DON'T USE THIS. Instead, just alter the homing cycle for two-axes.
@@ -279,19 +205,11 @@
 // precise this. So, there is likely no need to change these, but you can if you need to here.
 // NOTE: Must be an integer value from 0 to ~4. More than 4 may exhibit round-off errors.
 #define N_DECIMAL_COORDVALUE_INCH 4 // Coordinate or position value in inches
-<<<<<<< Updated upstream
-#define N_DECIMAL_COORDVALUE_MM   3 // Coordinate or position value in mm
-#define N_DECIMAL_RATEVALUE_INCH  1 // Rate or velocity value in in/min
-#define N_DECIMAL_RATEVALUE_MM    0 // Rate or velocity value in mm/min
-#define N_DECIMAL_SETTINGVALUE    3 // Decimals for floating point setting values
-#define N_DECIMAL_RPMVALUE        0 // RPM value in rotations per min.
-=======
 #define N_DECIMAL_COORDVALUE_MM 3   // Coordinate or position value in mm
 #define N_DECIMAL_RATEVALUE_INCH 1  // Rate or velocity value in in/min
 #define N_DECIMAL_RATEVALUE_MM 0    // Rate or velocity value in mm/min
 #define N_DECIMAL_SETTINGVALUE 3    // Decimals for floating point setting values
 #define N_DECIMAL_RPMVALUE 0        // RPM value in rotations per min.
->>>>>>> Stashed changes
 
 // If your machine has two limits switches wired in parallel to one axis, you will need to enable
 // this feature. Since the two switches are sharing a single pin, there is no way for Grbl to tell
@@ -313,11 +231,7 @@
 // Enables a second coolant control pin via the mist coolant g-code command M7 on the Arduino Uno
 // analog pin 4. Only use this option if you require a second coolant control pin.
 // NOTE: The M8 flood coolant control pin on analog pin 3 will still be functional regardless.
-<<<<<<< Updated upstream
- #define ENABLE_M7 // Disabled by default. Uncomment to enable.
-=======
 #define ENABLE_M7 // Disabled by default. Uncomment to enable.
->>>>>>> Stashed changes
 
 // This option causes the feed hold input to act as a safety door switch. A safety door, when triggered,
 // immediately forces a feed hold and then safely de-energizes the machine. Resuming is blocked until
@@ -360,11 +274,7 @@
 // NOTE: If VARIABLE_SPINDLE is enabled(default), this option has no effect as the PWM output and
 // spindle enable are combined to one pin. If you need both this option and spindle speed PWM,
 // uncomment the config option USE_SPINDLE_DIR_AS_ENABLE_PIN below.
-<<<<<<< Updated upstream
-//#define INVERT_SPINDLE_ENABLE_PIN // Default disabled. Uncomment to enable.
-=======
 // #define INVERT_SPINDLE_ENABLE_PIN // Default disabled. Uncomment to enable.
->>>>>>> Stashed changes
 
 // Inverts the selected coolant pin from low-disabled/high-enabled to low-enabled/high-disabled. Useful
 // for some pre-built electronic boards.
@@ -394,24 +304,6 @@
 // Configure rapid, feed, and spindle override settings. These values define the max and min
 // allowable override values and the coarse and fine increments per command received. Please
 // note the allowable values in the descriptions following each define.
-<<<<<<< Updated upstream
-#define DEFAULT_FEED_OVERRIDE           100 // 100%. Don't change this value.
-#define MAX_FEED_RATE_OVERRIDE          200 // Percent of programmed feed rate (100-255). Usually 120% or 200%
-#define MIN_FEED_RATE_OVERRIDE           10 // Percent of programmed feed rate (1-100). Usually 50% or 1%
-#define FEED_OVERRIDE_COARSE_INCREMENT   10 // (1-99). Usually 10%.
-#define FEED_OVERRIDE_FINE_INCREMENT      1 // (1-99). Usually 1%.
-
-#define DEFAULT_RAPID_OVERRIDE  100 // 100%. Don't change this value.
-#define RAPID_OVERRIDE_MEDIUM    50 // Percent of rapid (1-99). Usually 50%.
-#define RAPID_OVERRIDE_LOW       25 // Percent of rapid (1-99). Usually 25%.
-// #define RAPID_OVERRIDE_EXTRA_LOW 5 // *NOT SUPPORTED* Percent of rapid (1-99). Usually 5%.
-
-#define DEFAULT_SPINDLE_SPEED_OVERRIDE    100 // 100%. Don't change this value.
-#define MAX_SPINDLE_SPEED_OVERRIDE        200 // Percent of programmed spindle speed (100-255). Usually 200%.
-#define MIN_SPINDLE_SPEED_OVERRIDE         10 // Percent of programmed spindle speed (1-100). Usually 10%.
-#define SPINDLE_OVERRIDE_COARSE_INCREMENT  10 // (1-99). Usually 10%.
-#define SPINDLE_OVERRIDE_FINE_INCREMENT     1 // (1-99). Usually 1%.
-=======
 #define DEFAULT_FEED_OVERRIDE 100         // 100%. Don't change this value.
 #define MAX_FEED_RATE_OVERRIDE 200        // Percent of programmed feed rate (100-255). Usually 120% or 200%
 #define MIN_FEED_RATE_OVERRIDE 10         // Percent of programmed feed rate (1-100). Usually 50% or 1%
@@ -428,7 +320,6 @@
 #define MIN_SPINDLE_SPEED_OVERRIDE 10        // Percent of programmed spindle speed (1-100). Usually 10%.
 #define SPINDLE_OVERRIDE_COARSE_INCREMENT 10 // (1-99). Usually 10%.
 #define SPINDLE_OVERRIDE_FINE_INCREMENT 1    // (1-99). Usually 1%.
->>>>>>> Stashed changes
 
 // When a M2 or M30 program end command is executed, most g-code states are restored to their defaults.
 // This compile-time option includes the restoring of the feed, rapid, and spindle speed override values
@@ -437,18 +328,6 @@
 
 // The status report change for Grbl v1.1 and after also removed the ability to disable/enable most data
 // fields from the report. This caused issues for GUI developers, who've had to manage several scenarios
-<<<<<<< Updated upstream
-// and configurations. The increased efficiency of the new reporting style allows for all data fields to 
-// be sent without potential performance issues.
-// NOTE: The options below are here only provide a way to disable certain data fields if a unique
-// situation demands it, but be aware GUIs may depend on this data. If disabled, it may not be compatible.
-#define REPORT_FIELD_BUFFER_STATE // Default enabled. Comment to disable.
-#define REPORT_FIELD_PIN_STATE // Default enabled. Comment to disable.
-#define REPORT_FIELD_CURRENT_FEED_SPEED // Default enabled. Comment to disable.
-#define REPORT_FIELD_WORK_COORD_OFFSET // Default enabled. Comment to disable.
-#define REPORT_FIELD_OVERRIDES // Default enabled. Comment to disable.
-#define REPORT_FIELD_LINE_NUMBERS // Default enabled. Comment to disable.
-=======
 // and configurations. The increased efficiency of the new reporting style allows for all data fields to
 // be sent without potential performance issues.
 // NOTE: The options below are here only provide a way to disable certain data fields if a unique
@@ -459,7 +338,6 @@
 #define REPORT_FIELD_WORK_COORD_OFFSET  // Default enabled. Comment to disable.
 #define REPORT_FIELD_OVERRIDES          // Default enabled. Comment to disable.
 #define REPORT_FIELD_LINE_NUMBERS       // Default enabled. Comment to disable.
->>>>>>> Stashed changes
 
 // Some status report data isn't necessary for realtime, only intermittently, because the values don't
 // change often. The following macros configures how many times a status report needs to be called before
@@ -470,17 +348,10 @@
 // refreshes more often when its not doing anything important. With a good GUI, this data doesn't need
 // to be refreshed very often, on the order of a several seconds.
 // NOTE: WCO refresh must be 2 or greater. OVR refresh must be 1 or greater.
-<<<<<<< Updated upstream
-#define REPORT_OVR_REFRESH_BUSY_COUNT 20  // (1-255)
-#define REPORT_OVR_REFRESH_IDLE_COUNT 10  // (1-255) Must be less than or equal to the busy count
-#define REPORT_WCO_REFRESH_BUSY_COUNT 30  // (2-255)
-#define REPORT_WCO_REFRESH_IDLE_COUNT 10  // (2-255) Must be less than or equal to the busy count
-=======
 #define REPORT_OVR_REFRESH_BUSY_COUNT 20 // (1-255)
 #define REPORT_OVR_REFRESH_IDLE_COUNT 10 // (1-255) Must be less than or equal to the busy count
 #define REPORT_WCO_REFRESH_BUSY_COUNT 30 // (2-255)
 #define REPORT_WCO_REFRESH_IDLE_COUNT 10 // (2-255) Must be less than or equal to the busy count
->>>>>>> Stashed changes
 
 // The temporal resolution of the acceleration management subsystem. A higher number gives smoother
 // acceleration, particularly noticeable on machines that run at very high feedrates, but may negatively
@@ -496,11 +367,7 @@
 // frequencies below 10kHz, where the aliasing between axes of multi-axis motions can cause audible
 // noise and shake your machine. At even lower step frequencies, AMASS adapts and provides even better
 // step smoothing. See stepper.c for more details on the AMASS system works.
-<<<<<<< Updated upstream
-#define ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING  // Default enabled. Comment to disable.
-=======
 #define ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING // Default enabled. Comment to disable.
->>>>>>> Stashed changes
 
 // Sets the maximum step rate allowed to be written as a Grbl setting. This option enables an error
 // check in the settings module to prevent settings values that will exceed this limitation. The maximum
@@ -522,15 +389,9 @@
 // normal-open switch and vice versa.
 // NOTE: All pins associated with the feature are disabled, i.e. XYZ limit pins, not individual axes.
 // WARNING: When the pull-ups are disabled, this requires additional wiring with pull-down resistors!
-<<<<<<< Updated upstream
-//#define DISABLE_LIMIT_PIN_PULL_UP
-//#define DISABLE_PROBE_PIN_PULL_UP
-//#define DISABLE_CONTROL_PIN_PULL_UP
-=======
 // #define DISABLE_LIMIT_PIN_PULL_UP
 // #define DISABLE_PROBE_PIN_PULL_UP
 // #define DISABLE_CONTROL_PIN_PULL_UP
->>>>>>> Stashed changes
 
 // Sets which axis the tool length offset is applied. Assumes the spindle is always parallel with
 // the selected axis with the tool oriented toward the negative direction. In other words, a positive
@@ -558,39 +419,22 @@
 // preserve I/O pins. For certain setups, these may need to be separate pins. This configure option uses
 // the spindle direction pin(D13) as a separate spindle enable pin along with spindle speed PWM on pin D11.
 // NOTE: This configure option only works with VARIABLE_SPINDLE enabled and a 328p processor (Uno).
-<<<<<<< Updated upstream
-// NOTE: Without a direction pin, M4 will not have a pin output to indicate a difference with M3. 
-=======
 // NOTE: Without a direction pin, M4 will not have a pin output to indicate a difference with M3.
->>>>>>> Stashed changes
 // NOTE: BEWARE! The Arduino bootloader toggles the D13 pin when it powers up. If you flash Grbl with
 // a programmer (you can use a spare Arduino as "Arduino as ISP". Search the web on how to wire this.),
 // this D13 LED toggling should go away. We haven't tested this though. Please report how it goes!
 // Not available for stm32f103!
-<<<<<<< Updated upstream
-//#define USE_SPINDLE_DIR_AS_ENABLE_PIN // Default disabled. Uncomment to enable.
-=======
 // #define USE_SPINDLE_DIR_AS_ENABLE_PIN // Default disabled. Uncomment to enable.
->>>>>>> Stashed changes
 // for stm32f103 use USE_SPINDLE_ENABLE_PIN
 #define USE_SPINDLE_ENABLE_PIN // Default enabled. Comment to disable.
 
 // Alters the behavior of the spindle enable pin with the USE_SPINDLE_DIR_AS_ENABLE_PIN option . By default,
-<<<<<<< Updated upstream
-// Grbl will not disable the enable pin if spindle speed is zero and M3/4 is active, but still sets the PWM 
-// output to zero. This allows the users to know if the spindle is active and use it as an additional control
-// input. However, in some use cases, user may want the enable pin to disable with a zero spindle speed and 
-// re-enable when spindle speed is greater than zero. This option does that.
-// NOTE: Requires USE_SPINDLE_DIR_AS_ENABLE_PIN to be enabled.
-//#define SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED // Default disabled. Uncomment to enable.
-=======
 // Grbl will not disable the enable pin if spindle speed is zero and M3/4 is active, but still sets the PWM
 // output to zero. This allows the users to know if the spindle is active and use it as an additional control
 // input. However, in some use cases, user may want the enable pin to disable with a zero spindle speed and
 // re-enable when spindle speed is greater than zero. This option does that.
 // NOTE: Requires USE_SPINDLE_DIR_AS_ENABLE_PIN to be enabled.
 // #define SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED // Default disabled. Uncomment to enable.
->>>>>>> Stashed changes
 
 // With this enabled, Grbl sends back an echo of the line it has received, which has been pre-parsed (spaces
 // removed, capitalized letters, no comments) and is to be immediately executed by Grbl. Echoes will not be
