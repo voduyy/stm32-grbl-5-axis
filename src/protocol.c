@@ -20,6 +20,7 @@
 */
 
 #include "grbl.h"
+// #define DEBUG
 
 // Define line flags. Includes comment type tracking and line overflow detection.
 #define LINE_FLAG_OVERFLOW bit(0)
@@ -38,6 +39,7 @@ static void protocol_exec_rt_suspend();
 /*
   GRBL PRIMARY LOOP:
 */
+// check
 void protocol_main_loop()
 {
   // Perform some machine checks to make sure everything is good to go.
@@ -492,6 +494,7 @@ void protocol_exec_rt_system()
   #ifdef DEBUG
     if (sys_rt_exec_debug) {
       report_realtime_debug();
+
       sys_rt_exec_debug = 0;
     }
   #endif

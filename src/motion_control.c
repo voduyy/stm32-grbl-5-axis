@@ -236,6 +236,8 @@ void mc_homing_cycle(uint8_t cycle_mask)
     #endif
   }
 
+  report_status_message(STATUS_OK);
+
   protocol_execute_realtime(); // Check for reset and set system abort.
   if (sys.abort) { return; } // Did not complete. Alarm state set by mc_alarm.
 

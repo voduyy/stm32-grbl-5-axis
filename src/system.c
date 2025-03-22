@@ -258,19 +258,19 @@ uint8_t system_execute_line(char *line)
           if (bit_isfalse(settings.flags,BITFLAG_HOMING_ENABLE)) {return(STATUS_SETTING_DISABLED); }
           if (system_check_safety_door_ajar()) { return(STATUS_CHECK_DOOR); } // Block if safety door is ajar.
           sys.state = STATE_HOMING; // Set system state variable
-          if (line[2] == 0) {
+          if (line[2] == 0) { //H0
             mc_homing_cycle(HOMING_CYCLE_ALL);
           #ifdef HOMING_SINGLE_AXIS_COMMANDS
             } else if (line[3] == 0) {
               switch (line[2]) {
-                case 'X': mc_homing_cycle(HOMING_CYCLE_X); break;
+                case 'X': mc_homing_cycle(HOMING_CYCLE_X); break; // HX0
                 case 'Y': mc_homing_cycle(HOMING_CYCLE_Y); break;
                 case 'Z': mc_homing_cycle(HOMING_CYCLE_Z); break;
 // --- YSV 22-06-2018
-				#if defined  (AA_AXIS) || (AB_AXIS) || (ABC_AXIS)
-				case 'A': mc_homing_cycle(HOMING_CYCLE_A); break;
-  				#endif
-				#if defined  (AB_AXIS) || (ABC_AXIS)
+        #if defined(AA_AXIS) || defined(AB_AXIS) || defined(ABC_AXIS)	
+			  case 'A': mc_homing_cycle(HOMING_CYCLE_A); break;
+  			#endif
+				#if defined  (AB_AXIS) || defined (ABC_AXIS)
 				case 'B': mc_homing_cycle(HOMING_CYCLE_B); break;
 				#endif
 				#ifdef ABC_AXIS
