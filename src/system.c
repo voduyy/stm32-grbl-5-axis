@@ -135,9 +135,9 @@ void EXTI9_5_IRQHandler(void)
 {
     EXTI_ClearITPendingBit((1 << CONTROL_RESET_BIT) | (1 << CONTROL_FEED_HOLD_BIT) | (1 << CONTROL_CYCLE_START_BIT) | (1 << CONTROL_SAFETY_DOOR_BIT));
 	uint8_t pin = system_control_get_state();
-	if (pin) 
-	{ 
-		if (bit_istrue(pin,CONTROL_PIN_INDEX_RESET)) 
+	if (pin)
+	{
+		if (bit_istrue(pin,CONTROL_PIN_INDEX_RESET))
 		{
 			mc_reset();
 		}
@@ -211,7 +211,7 @@ uint8_t system_execute_line(char *line)
       if(line[2] != '=') { return(STATUS_INVALID_STATEMENT); }
       return(gc_execute_line(line)); // NOTE: $J= is ignored inside g-code parser and used to detect jog motions.
       break;
-    case '$': case 'G': case 'C': case 'X':
+    case '$': case 'G': case 'C': case 'X': {
       if ( line[2] != 0 ) { return(STATUS_INVALID_STATEMENT); }
       switch( line[1] ) {
         case '$' : // Prints Grbl settings
@@ -246,6 +246,7 @@ uint8_t system_execute_line(char *line)
           break;
       }
       break;
+    }
     default :
       // Block any system command that requires the state as IDLE/ALARM. (i.e. EEPROM, homing)
       if ( !(sys.state == STATE_IDLE || sys.state == STATE_ALARM) ) { return(STATUS_IDLE_ERROR); }
@@ -263,14 +264,14 @@ uint8_t system_execute_line(char *line)
           #ifdef HOMING_SINGLE_AXIS_COMMANDS
             } else if (line[3] == 0) {
               switch (line[2]) {
-                case 'X': mc_homing_cycle(HOMING_CYCLE_X); break;
+                case 'X': mc_homing_cycle(HOMING_CYCLE_X); printPgmString(PSTR("test\r\n")); break;
                 case 'Y': mc_homing_cycle(HOMING_CYCLE_Y); break;
                 case 'Z': mc_homing_cycle(HOMING_CYCLE_Z); break;
 // --- YSV 22-06-2018
-				#if defined  (AA_AXIS) || (AB_AXIS) || (ABC_AXIS)
+				#if defined  (AA_AXIS) || defined (AB_AXIS) || defined (ABC_AXIS)
 				case 'A': mc_homing_cycle(HOMING_CYCLE_A); break;
   				#endif
-				#if defined  (AB_AXIS) || (ABC_AXIS)
+				#if defined  (AB_AXIS) || defined (ABC_AXIS)
 				case 'B': mc_homing_cycle(HOMING_CYCLE_B); break;
 				#endif
 				#ifdef ABC_AXIS

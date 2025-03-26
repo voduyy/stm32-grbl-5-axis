@@ -584,14 +584,14 @@
 #endif
 
 #ifdef ABC_AXIS_EXAMPLE
-#define DEFAULT_X_STEPS_PER_MM 500.0f // X axis step per mm // 400
-#define DEFAULT_Y_STEPS_PER_MM 500.0f // Y axis step per mm
-#define DEFAULT_Z_STEPS_PER_MM 500.0f // Z axis step per mm
+#define DEFAULT_X_STEPS_PER_MM 50.0f // X axis step per mm // 400
+#define DEFAULT_Y_STEPS_PER_MM 50.0f // Y axis step per mm
+#define DEFAULT_Z_STEPS_PER_MM 50.0f // Z axis step per mm
 #if defined(AA_AXIS) || defined(AB_AXIS) || defined(ABC_AXIS)
-#define DEFAULT_A_STEPS_PER_MM 500.0f // A axis step per mm
+#define DEFAULT_A_STEPS_PER_MM 50.0f // A axis step per mm
 #endif
 #if defined(AB_AXIS) || defined(ABC_AXIS)
-#define DEFAULT_B_STEPS_PER_MM 500.0f // B axis step per mm
+#define DEFAULT_B_STEPS_PER_MM 50.0f // B axis step per mm
 #endif
 #if defined(ABC_AXIS)
 #define DEFAULT_C_STEPS_PER_MM 5120.0f // C axis step per mm
@@ -645,13 +645,13 @@
 #define DEFAULT_INVERT_ST_ENABLE 1
 #define DEFAULT_INVERT_LIMIT_PINS 1
 #define DEFAULT_SOFT_LIMIT_ENABLE 0
-#define DEFAULT_HARD_LIMIT_ENABLE 0
+#define DEFAULT_HARD_LIMIT_ENABLE 1
 #define DEFAULT_INVERT_PROBE_PIN 0
 #define DEFAULT_LASER_MODE 0
 #define DEFAULT_HOMING_ENABLE 0
 #define DEFAULT_HOMING_DIR_MASK 0x1f
-#define DEFAULT_HOMING_FEED_RATE 10.0f    // mm/min
-#define DEFAULT_HOMING_SEEK_RATE 100.0f   // mm/min
+#define DEFAULT_HOMING_FEED_RATE 100.0f    // mm/min
+#define DEFAULT_HOMING_SEEK_RATE 1000.0f   // mm/min
 #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
 #define DEFAULT_HOMING_PULLOFF 1.5f       // mm
 #endif

@@ -62,6 +62,8 @@ void write_global_settings()
 // Method to restore EEPROM-saved Grbl global settings back to defaults.
 void settings_restore(uint8_t restore_flag)
 {
+  settings.steps_per_mm[X_AXIS] = DEFAULT_X_STEPS_PER_MM;
+
   if (restore_flag & SETTINGS_RESTORE_DEFAULTS)
   {
     // settings.pulse_microseconds = DEFAULT_STEP_PULSE_MICROSECONDS;
@@ -116,7 +118,7 @@ void settings_restore(uint8_t restore_flag)
       settings.flags |= BITFLAG_INVERT_PROBE_PIN;
     }
 
-    settings.steps_per_mm[X_AXIS] = DEFAULT_X_STEPS_PER_MM;
+
     settings.steps_per_mm[Y_AXIS] = DEFAULT_Y_STEPS_PER_MM;
     settings.steps_per_mm[Z_AXIS] = DEFAULT_Z_STEPS_PER_MM;
     settings.max_rate[X_AXIS] = DEFAULT_X_MAX_RATE;

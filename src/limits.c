@@ -158,7 +158,7 @@ uint8_t limits_get_state()
 // If a switch is triggered at all, something bad has happened and treat it as such, regardless
 // if a limit switch is being disengaged. It's impossible to reliably tell the state of a
 // bouncing pin because the Arduino microcontroller does not retain any state information when
-// detecting a pin change. If we poll the pins in the ISR, you can miss the correct reading if the 
+// detecting a pin change. If we poll the pins in the ISR, you can miss the correct reading if the
 // switch is bouncing.
 // NOTE: Do not attach an e-stop to the limit pins, because this interrupt is disabled during
 // homing cycles and will not respond correctly. Upon user request or need, there may be a
@@ -166,7 +166,7 @@ uint8_t limits_get_state()
 // your e-stop switch to the Arduino reset pin, since it is the most correct way to do this.
 #ifndef ENABLE_SOFTWARE_DEBOUNCE
 #if defined(AVRTARGET) || defined (STM32F103C8)
-#if defined(AVRTARGET) 
+#if defined(AVRTARGET)
 ISR(LIMIT_INT_vect) // DEFAULT: Limit pin change interrupt process.
 #else
 void EXTI15_10_IRQHandler(void)
@@ -190,19 +190,19 @@ void EXTI15_10_IRQHandler(void)
 	if (EXTI_GetITStatus(1 << A_LIMIT_BIT) != RESET)
 	{
 		EXTI_ClearITPendingBit(1 << A_LIMIT_BIT);
-	}	
+	}
 	#endif
 	#if defined(AB_AXIS) || defined(ABC_AXIS)
 	if (EXTI_GetITStatus(1 << B_LIMIT_BIT) != RESET)
 	{
 		EXTI_ClearITPendingBit(1 << B_LIMIT_BIT);
-	}	
+	}
 	#endif
 	#ifdef ABC_AXIS
 	if (EXTI_GetITStatus(1 << C_LIMIT_BIT) != RESET)
 	{
 		EXTI_ClearITPendingBit(1 << C_LIMIT_BIT);
-	}	
+	}
 	#endif
 // ---
 	NVIC_ClearPendingIRQ(EXTI15_10_IRQn);
@@ -230,14 +230,14 @@ void EXTI15_10_IRQHandler(void)
 #endif
 #else // OPTIONAL: Software debounce limit pin routine.
 #if defined(AVRTARGET)
-// Upon limit pin change, enable watchdog timer to create a short delay. 
+// Upon limit pin change, enable watchdog timer to create a short delay.
 ISR(LIMIT_INT_vect) { if (!(WDTCSR & (1 << WDIE))) { WDTCSR |= (1 << WDIE); } }
 ISR(WDT_vect) // Watchdog timer ISR
 {
-  WDTCSR &= ~(1 << WDIE); // Disable watchdog timer. 
-  if (sys.state != STATE_ALARM) {  // Ignore if already in alarm state. 
+  WDTCSR &= ~(1 << WDIE); // Disable watchdog timer.
+  if (sys.state != STATE_ALARM) {  // Ignore if already in alarm state.
     if (!(sys_rt_exec_alarm)) {
-      // Check limit pin state. 
+      // Check limit pin state.
       if (limits_get_state()) {
         mc_reset(); // Initiate system kill.
         system_set_exec_alarm(EXEC_ALARM_HARD_LIMIT); // Indicate hard limit critical event
@@ -447,6 +447,7 @@ void limits_go_home(uint8_t cycle_mask)
     }
   }
   sys.step_control = STEP_CONTROL_NORMAL_OP; // Return step control to normal operation.
+  report_status_message(STATUS_OK);
 }
 
 
