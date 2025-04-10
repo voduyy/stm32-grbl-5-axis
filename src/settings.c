@@ -63,6 +63,7 @@ void write_global_settings()
 void settings_restore(uint8_t restore_flag)
 {
   settings.steps_per_mm[X_AXIS] = DEFAULT_X_STEPS_PER_MM;
+  settings.pulse_microseconds = 9000;
 
   if (restore_flag & SETTINGS_RESTORE_DEFAULTS)
   {

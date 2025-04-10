@@ -1647,11 +1647,13 @@ void TIM_Configuration(TIM_TypeDef *TIMER, u16 Period, u16 Prescaler, u8 PP)
 {
   TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
   NVIC_InitTypeDef NVIC_InitStructure;
+  TIM_OCInitTypeDef sConfigOC;
 
   TIM_TimeBaseStructure.TIM_Period = Period - 1;
   TIM_TimeBaseStructure.TIM_Prescaler = Prescaler - 1;
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  sConfigOC.TIM_Pulse = (int)(Period / 2);
   TIM_TimeBaseInit(TIMER, &TIM_TimeBaseStructure);
 
   TIM_ClearITPendingBit(TIMER, TIM_IT_Update);
