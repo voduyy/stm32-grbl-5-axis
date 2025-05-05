@@ -556,7 +556,7 @@
 //	11 usb											reserved for UART3 or B_LIMIT_BIT
 //	12 usb											X_LIMIT_BIT
 //	13 swd, possible to use for	C_STEP_BIT			Y_LIMIT_BIT
-//	14 swd, possible to use for	C_DIRECTION_BIT		Z_LIMIT_BIT
+//	14 swd, possible to use for	C_DIRECTION_BIT		Z_LIMIT_BIT 
 //	15 STEPPERS_DISABLE_BIT							A_LIMIT_BIT
 
 #endif

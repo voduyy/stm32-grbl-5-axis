@@ -361,7 +361,7 @@
 // NOTE: Changing this value also changes the execution time of a segment in the step segment buffer.
 // When increasing this value, this stores less overall time in the segment buffer and vice versa. Make
 // certain the step segment buffer is increased/decreased to account for these changes.
-#define ACCELERATION_TICKS_PER_SECOND 100
+#define ACCELERATION_TICKS_PER_SECOND 500
 
 // Adaptive Multi-Axis Step Smoothing (AMASS) is an advanced feature that does what its name implies,
 // smoothing the stepping of multi-axis motions. This feature smooths motion particularly at low step
@@ -452,19 +452,30 @@
 // limits or angle between neighboring block line move directions. This is useful for machines that can't
 // tolerate the tool dwelling for a split second, i.e. 3d printers or laser cutters. If used, this value
 // should not be much greater than zero or to the minimum value necessary for the machine to work.
-#define MINIMUM_JUNCTION_SPEED 0.0f // (mm/min)
+#define MINIMUM_JUNCTION_SPEED 0.0f // (mm/min) 
+// Tốc độ tối thiểu đi qua các điểm giao (vd: X30 Y0 , X30 Y30. 2 lệnh này có 1 đoạn chuyển giao 90 độ)
+// Rẽ hướng -> Giảm tốc -> Thằng này là tốc độ tối thiểu
+// Nếu khác laser thì phải chỉnh thằng này tại nếu rẽ mà nó đứng yên quá lâu lại điểm đó thì nó sẽ cháy
+// Đặt càng nhỏ càng tốt nhma chỉnh cao quá thì có thể hình không chính xác
 
 // Sets the minimum feed rate the planner will allow. Any value below it will be set to this minimum
 // value. This also ensures that a planned motion always completes and accounts for any floating-point
 // round-off errors. Although not recommended, a lower value than 1.0 mm/min will likely work in smaller
 // machines, perhaps to 0.1mm/min, but your success may vary based on multiple factors.
 #define MINIMUM_FEED_RATE 1.0 // (mm/min)
+// Feed Rate thấp nhất mà hệ thống cho phép. Nếu lệnh gửi bé hơn thì feedrate tự scale = cái này
+// Ví dụ: nếu gửi lệnh G1 X10 F0.5 thì nó sẽ tự scale thành G1 X10 F1 (Không thể F=0) 
 
 // Number of arc generation iterations by small angle approximation before exact arc trajectory
 // correction with expensive sin() and cos() calcualtions. This parameter maybe decreased if there
 // are issues with the accuracy of the arc generations, or increased if arc execution is getting
 // bogged down by too many trig calculations.
 #define N_ARC_CORRECTION 12 // Integer (1-255)
+// Khi vẽ hình tròn, RGBL xài nội suy cung tròn, chia cung thành X điểm
+// Thông số này ví dụ: vẽ 1 cung tròn chia thành 36 điểm thì 12 điểm đầu sẽ tính toán nhanh mà không dùng sin, cos.
+// Sau đó tới điểm 13 thì tính chính xác bằng lượng giác. Xong từ điểm 14 đến 11 điểm tiếp theo thì lại tính toán nhanh. 
+// Cứ như vậy cho hết chu trình
+// Giảm nếu cung tròn lệch, tăng nếu thấy cung tròn vẽ quá chậm
 
 // The arc G2/3 g-code standard is problematic by definition. Radius-based arcs have horrible numerical
 // errors when arc at semi-circles(pi) or full-circles(2*pi). Offset-based arcs are much more accurate
@@ -475,6 +486,10 @@
 // NOTE: Be very careful when adjusting this value. It should always be greater than 1.2e-7 but not too
 // much greater than this. The default setting should capture most, if not all, full arc error situations.
 #define ARC_ANGULAR_TRAVEL_EPSILON 5E-7 // Float (radians)
+// Nôm na là khi muốn vẽ full 1 hình tròn (đầu cuối trùng nhau) hay những cung có điểm đầu cuối quá sát nhau.
+// Nó có thể hiểu nhầm là 1 cung cực nhỏ thay thì đi 1 vòng 
+// Đây là ngưỡng để xác định cung tròn. Nếu cung có góc < thông số này thì bỏ qua coi như cung không tồn tại.
+// Không nên chỉnh bừa
 
 // Time delay increments performed during a dwell. The default value is set at 50ms, which provides
 // a maximum time delay of roughly 55 minutes, more than enough for most any application. Increasing
@@ -482,6 +497,9 @@
 // run-time command executions, like status reports, since these are performed between each dwell
 // time step. Also, keep in mind that the Arduino delay timer is not very accurate for long delays.
 #define DWELL_TIME_STEP 50 // Integer (1-255) (milliseconds)
+// Quy định độ dài của mỗi bước chờ khi thực hiện lệnh G4 - theo GPT
+// Thay vì chờ toàn bộ tgian, GRBL chia ra nhiều bước = thông số này 
+// VD: G4 P2: chờ 2p = 2000ms / 50ms = 40 bước delay - theo GPT 
 
 // Creates a delay between the direction pin setting and corresponding step pulse by creating
 // another interrupt (Timer2 compare) to manage it. The main Grbl interrupt (Timer1 compare)
@@ -501,6 +519,10 @@
 // crash due to the lack of available RAM or if the CPU is having trouble keeping up with planning
 // new incoming motions as they are executed.
 // #define BLOCK_BUFFER_SIZE 16 // Uncomment to override default in planner.h.
+// Số lượng đoạn chuyển động được lưu vào trong Buffer. 
+// Tăng cái này tốn RAM
+// Số lượng chuyển động là tính thoe lệnh G.
+// Ví dụ như G1 X10 Y10, G1 X20 Y20, G0 X30 Y30 thì chỉ tính 2 đoạn chuyển động.
 
 // Governs the size of the intermediary step segment buffer between the step execution algorithm
 // and the planner blocks. Each segment is set of steps executed at a constant velocity over a
@@ -509,6 +531,11 @@
 // execution lead time there is for other Grbl processes have to compute and do their thing
 // before having to come back and refill this buffer, currently at ~50msec of step moves.
 // #define SEGMENT_BUFFER_SIZE 6 // Uncomment to override default in stepper.h.
+// vd G1 X100 F6000: Planner Block (di chuyển 1 đoạn dài)
+// Segment: Chia planner block thành những đoạn rất nhỏ đều bằng nhau (số bước stepper)
+// Mỗi Segment thực hiện ở vận tốc không đổi trong thời gian rất ngắn. Tùy thuộc vô ACCELERATION_TICKS_PER_SECOND
+// Chuẩn bị trước số Segment chuyển động (luôn có sẵn 6 đoạn số bước)
+// Cre: GPT
 
 // Line buffer size from the serial input stream to be executed. Also, governs the size of
 // each of the startup blocks, as they are each stored as a string of this size. Make sure
@@ -519,6 +546,8 @@
 // support up to 256 characters. In future versions, this default will be increased, when
 // we know how much extra memory space we can re-invest into this.
 // #define LINE_BUFFER_SIZE 80  // Uncomment to override default in protocol.h
+// Số lượng ký tự trong 1 dòng G_Code gửi vô
+// Think: Usb serial đang ổn nên nghĩ nó không ảnh hưởng
 
 // Serial send and receive buffer size. The receive buffer is often used as another streaming
 // buffer to store incoming blocks to be processed by Grbl when its ready. Most streaming
@@ -543,6 +572,9 @@
 // use shielded signal cables with their shielding connected to ground (old USB/computer cables
 // work well and are cheap to find) and wire in a low-pass circuit into each limit pin.
 // #define ENABLE_SOFTWARE_DEBOUNCE // Default disabled. Uncomment to enable.
+// Cơ bản thì là Debounce của hard_limit. 
+// Chạm limit -> đợi 32msec (thấy cmt nó để vậy) -> check lại
+// Vẫn có thể ảnh hưởng bởi nhiễu 
 
 // Configures the position after a probing cycle during Grbl's check mode. Disabled sets
 // the position to the probe target, when enabled sets the position to the start position.
@@ -567,6 +599,9 @@
 // NOTE: Both of these values must be greater than 1.0 to ensure proper function.
 // #define HOMING_AXIS_SEARCH_SCALAR  1.5f // Uncomment to override defaults in limits.c.
 // #define HOMING_AXIS_LOCATE_SCALAR  10.0f // Uncomment to override defaults in limits.c.
+// 2 tk này ảnh hưởng đến quá trình homing. Tìm home và re_check
+// HOMING_AXIS_SEARCH_SCALAR * max_travel($130-$134) để ra quãng đường tối đa nó sẽ đi để tìm Home
+// HOMING_AXIS_LOCATE_SCALAR * pull_off($27) để tính quãng đường nó giật ra trước khi re_check
 
 // Enable the '$RST=*', '$RST=$', and '$RST=#' eeprom restore commands. There are cases where
 // these commands may be undesirable. Simply comment the desired macro to disable it.
@@ -636,13 +671,34 @@
 // positive direction.
 // #define PARKING_ENABLE  // Default disabled. Uncomment to enable
 
+//Parking cơ bản là rút đầu cắt đến vị trí an toàn. Nó chỉ được kích hoạt khi safedoor được bật
+//Note kêu là nó vẫn đang hoàn thiệt 
+// Không được bật HOMING_FORCE_SET_ORIGIN
+// Phải làm việc trong môi trường âm vì trục parking chỉ đi được theo chiều dương
+
+
 // Configure options for the parking motion, if enabled.
 #define PARKING_AXIS Z_AXIS            // Define which axis that performs the parking motion
+// Trục parking (lên xuống đầu cắt)
 #define PARKING_TARGET -5.0f           // Parking axis target. In mm, as machine coordinate [-max_travel,0].
+// Rút đầu cắt về vị trí -5mm
 #define PARKING_RATE 500.0f            // Parking fast rate after pull-out in mm/min.
+// Tốc độ di chuyển nhanh đến parking. Sau khi Pull_off
 #define PARKING_PULLOUT_RATE 100.0f    // Pull-out/plunge slow feed rate in mm/min.
+// Tốc độ nâng hạ Pull
 #define PARKING_PULLOUT_INCREMENT 5.0f // Spindle pull-out and plunge distance in mm. Incremental distance.
+// Khoảng Pull_off
                                        // Must be positive value or equal to zero.
+
+// Note: 
+// mc_arc: nội suy cung tròn . 
+// mc_line: vẽ đường thẳng
+//- Check soft_limit
+//- Nếu đang ở checkmode -> skip
+//- Chờ buffer_planner có chỗ trống  
+//- Gửi đoạn thẳng cần đi đến planner 
+//- Đồng bộ với laser/spindle
+
 
 // Enables a special set of M-code commands that enables and disables the parking motion.
 // These are controlled by `M56`, `M56 P1`, or `M56 Px` to enable and `M56 P0` to disable.

@@ -71,7 +71,7 @@ void spindle_init()
 	GPIO_Init(SPINDLE_ENABLE_PORT, &GPIO_InitStructure);
 #endif
 
-#ifdef VARIABLE_SPINDLE
+#ifdef VARIABLE_SPINDLE //spindle
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
   TIM_TimeBaseInitTypeDef timerInitStructure;
   TIM_OCInitTypeDef outputChannelInit = { 0 };

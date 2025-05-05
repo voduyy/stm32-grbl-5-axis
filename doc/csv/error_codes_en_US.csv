@@ -10,7 +10,7 @@
 "9","G-code lock","G-code commands are locked out during alarm or jog state."
 "10","Homing not enabled","Soft limits cannot be enabled without homing also enabled."
 "11","Line overflow","Max characters per line exceeded. Received command line was not executed."
-"12","Step rate > 30kHz","Grbl '$' setting value cause the step rate to exceed the maximum supported."
+"12","Step rate > 30kHz","Grbl '$' setting value cause the   to exceed the maximum supported."
 "13","Check Door","Safety door detected as opened and door state initiated."
 "14","Line length exceeded","Build info or startup line exceeded EEPROM line length limit. Line not stored."
 "15","Travel exceeded","Jog target exceeds machine travel. Jog command has been ignored."

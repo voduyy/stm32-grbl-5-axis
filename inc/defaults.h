@@ -584,9 +584,9 @@
 #endif
 
 #ifdef ABC_AXIS_EXAMPLE
-#define DEFAULT_X_STEPS_PER_MM 50.0f // X axis step per mm // 400
-#define DEFAULT_Y_STEPS_PER_MM 50.0f // Y axis step per mm
-#define DEFAULT_Z_STEPS_PER_MM 50.0f // Z axis step per mm
+#define DEFAULT_X_STEPS_PER_MM 500.0f // X axis step per mm // 400
+#define DEFAULT_Y_STEPS_PER_MM 500.0f // Y axis step per mm
+#define DEFAULT_Z_STEPS_PER_MM 500.0f // Z axis step per mm
 #if defined(AA_AXIS) || defined(AB_AXIS) || defined(ABC_AXIS)
 #define DEFAULT_A_STEPS_PER_MM 50.0f // A axis step per mm
 #endif
@@ -596,7 +596,7 @@
 #if defined(ABC_AXIS)
 #define DEFAULT_C_STEPS_PER_MM 5120.0f // C axis step per mm
 #endif
-#define DEFAULT_X_MAX_RATE 2000.0f // X axis mm/min // 600
+#define DEFAULT_X_MAX_RATE 2000.0f // X axis mm/min // 600  // ko phải max 2000. CHÍNH THẰNG NÀY LÀ THẰNG GIỚI HẠN PEAK FREQUENCY 1000 = 1k6hz cứ thế nhân lên
 #define DEFAULT_Y_MAX_RATE 2000.0f // Y axis mm/min
 #define DEFAULT_Z_MAX_RATE 2000.0f // Z axis mm/min
 #if defined(AA_AXIS) || defined(AB_AXIS) || defined(ABC_AXIS)
@@ -608,7 +608,7 @@
 #if defined(ABC_AXIS)
 #define DEFAULT_C_MAX_RATE 2000.0f // C axis mm/min
 #endif
-#define DEFAULT_X_ACCELERATION (8000.0f * 60 * 60) // X axis 10*60*60 mm/min^2 = 10 mm/sec^2 // 45
+#define DEFAULT_X_ACCELERATION (8000.0f * 60 * 60) // X axis 10*60*60 mm/min^2 = 10 mm/sec^2 // 45 // Thẳng này sẽ ảnh hưởng đến thời gian đạt được peak frequency cũng như những xung đầu quá nhỏ. Test 1k5 xung đầu ra cỡ 785hz khá đẹp
 #define DEFAULT_Y_ACCELERATION (8000.0f * 60 * 60) // Y axis 10*60*60 mm/min^2 = 10 mm/sec^2
 #define DEFAULT_Z_ACCELERATION (8000.0f * 60 * 60) // Z axis 10*60*60 mm/min^2 = 10 mm/sec^2
 #if defined(AA_AXIS) || defined(AB_AXIS) || defined(ABC_AXIS)
@@ -634,13 +634,14 @@
 #endif
 #define DEFAULT_SPINDLE_RPM_MAX 1000.0f       // rpm
 #define DEFAULT_SPINDLE_RPM_MIN 0.0f          // rpm
-#define DEFAULT_STEP_PULSE_MICROSECONDS 60000 // usec
+#define DEFAULT_STEP_PULSE_MICROSECONDS 60000 // usec // theo test thì thằng này ảnh hưởng duty cycle
 #define DEFAULT_STEPPING_INVERT_MASK 0x0
 #define DEFAULT_DIRECTION_INVERT_MASK 0x1F
 #define DEFAULT_STEPPER_IDLE_LOCK_TIME 0 // msec (0-254, 255 keeps steppers enabled)
 #define DEFAULT_STATUS_REPORT_MASK 0     // 1 - MPos enabled, 0 - WPos enabled
-#define DEFAULT_JUNCTION_DEVIATION 0.01f // mm
-#define DEFAULT_ARC_TOLERANCE 0.002f     // mm
+#define DEFAULT_JUNCTION_DEVIATION 0.01f // mm // Tốc độ đi qua các điểm nối
+#define DEFAULT_ARC_TOLERANCE 0.002f     // mm 
+// Nội suy cung tròn -> ra 1 list điểm -> 2 điểm nối thành 1 đoạn thẳng -> khoảng cách giữa đoạn thẳng đó đến cung
 #define DEFAULT_REPORT_INCHES 0
 #define DEFAULT_INVERT_ST_ENABLE 1
 #define DEFAULT_INVERT_LIMIT_PINS 1
@@ -648,12 +649,12 @@
 #define DEFAULT_HARD_LIMIT_ENABLE 1
 #define DEFAULT_INVERT_PROBE_PIN 0
 #define DEFAULT_LASER_MODE 0
-#define DEFAULT_HOMING_ENABLE 0
+#define DEFAULT_HOMING_ENABLE 1
 #define DEFAULT_HOMING_DIR_MASK 0x1f
 #define DEFAULT_HOMING_FEED_RATE 100.0f    // mm/min
 #define DEFAULT_HOMING_SEEK_RATE 1000.0f   // mm/min
 #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
-#define DEFAULT_HOMING_PULLOFF 1.5f       // mm
+#define DEFAULT_HOMING_PULLOFF 1.0f       // mm
 #endif
 
 #endif
