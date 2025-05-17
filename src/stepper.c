@@ -624,6 +624,7 @@ void TIM2_IRQHandler(void)
       }
 #endif
       system_set_exec_state_flag(EXEC_CYCLE_STOP); // Flag main program for cycle end
+      report_status_message(STATUS_AXIS_DONE);
       return;                                      // Nothing to do but exit.
     }
   }

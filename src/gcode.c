@@ -266,6 +266,7 @@ uint8_t gc_execute_line(char *line)
               case 3: gc_block.modal.spindle = SPINDLE_ENABLE_CW; break;
               case 4: gc_block.modal.spindle = SPINDLE_ENABLE_CCW; break;
               case 5: gc_block.modal.spindle = SPINDLE_DISABLE; break;
+              // SPINDLE
             }
             break;
           #ifdef ENABLE_M7
