@@ -247,6 +247,7 @@ uint8_t system_execute_line(char *line)
       }
       break;
     default :
+    //check
       // Block any system command that requires the state as IDLE/ALARM. (i.e. EEPROM, homing)
       if ( !(sys.state == STATE_IDLE || sys.state == STATE_ALARM) ) { return(STATUS_IDLE_ERROR); }
       switch( line[1] ) {
@@ -259,11 +260,13 @@ uint8_t system_execute_line(char *line)
           if (system_check_safety_door_ajar()) { return(STATUS_CHECK_DOOR); } // Block if safety door is ajar.
           sys.state = STATE_HOMING; // Set system state variable
           if (line[2] == 0) { //H0
+            // sys.state = STATE_HOMING;
             mc_homing_cycle(HOMING_CYCLE_ALL);
+           // printPgmString(PSTR("HomeH0\r\n")); //add print to test
           #ifdef HOMING_SINGLE_AXIS_COMMANDS
             } else if (line[3] == 0) {
               switch (line[2]) {
-                case 'X': mc_homing_cycle(HOMING_CYCLE_X); break; // HX0
+                case 'X': mc_homing_cycle(HOMING_CYCLE_X); printPgmString(PSTR("HomeHX0\r\n")); break; // HX0  //add print to test
                 case 'Y': mc_homing_cycle(HOMING_CYCLE_Y); break;
                 case 'Z': mc_homing_cycle(HOMING_CYCLE_Z); break;
 // --- YSV 22-06-2018
