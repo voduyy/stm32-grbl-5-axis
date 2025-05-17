@@ -60,7 +60,7 @@ void mc_line(float *target, plan_line_data_t *pl_data)
   do {
     protocol_execute_realtime(); // Check for any run-time commands
     if (sys.abort) { return; } // Bail, if system abort.
-    if ( plan_check_full_buffer() ) { protocol_auto_cycle_start();report_status_message(STATUS_OK); } // Auto-cycle start when buffer is full.
+    if ( plan_check_full_buffer() ) { protocol_auto_cycle_start(); } // Auto-cycle start when buffer is full.
     else { break; }
   } while (1);
 
