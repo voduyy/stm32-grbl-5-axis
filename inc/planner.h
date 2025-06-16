@@ -32,7 +32,7 @@
     #define BLOCK_BUFFER_SIZE 16
   #endif
 #else
-#define BLOCK_BUFFER_SIZE 36
+#define BLOCK_BUFFER_SIZE 72
 #endif
 #endif
 

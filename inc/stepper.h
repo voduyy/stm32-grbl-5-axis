@@ -26,7 +26,7 @@
 #ifdef AVRTARGET
 #define SEGMENT_BUFFER_SIZE 6
 #else
-#define SEGMENT_BUFFER_SIZE 10
+#define SEGMENT_BUFFER_SIZE 20
 #endif
 #endif
 
