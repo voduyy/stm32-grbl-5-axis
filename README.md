@@ -137,7 +137,7 @@ Download and unzip this repository's zip file or clone it.
 
 ```
 cd ~
-git clone git@github.com:pvico/grbl32.git
+git clone git@github.com:voduyy/stm32-grbl-5-axis.git
 ```
 
 #### Modify it
