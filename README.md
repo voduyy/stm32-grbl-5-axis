@@ -8,7 +8,7 @@
 
 ***
 ## Highlights
-
+* This project being clone from https://github.com/pvico/grbl32, and modify to fit with our robot
 * 3-axis 32-bit GRBL firmware
 * USB or USART communication
 * USART serial baud rate: 921600
